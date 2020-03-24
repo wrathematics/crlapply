@@ -24,4 +24,3 @@ functionality.
 The checkpoint file is cleaned up on successful completion of
 \code{crlapply()}
 }
-

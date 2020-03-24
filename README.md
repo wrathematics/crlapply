@@ -2,7 +2,7 @@
 
 * **Version:** 0.1-0
 * **Status:** [![Build Status](https://travis-ci.org/wrathematics/crlapply.png)](https://travis-ci.org/wrathematics/crlapply)
-* **License:**  [![License](http://img.shields.io/badge/license-BSD%202--Clause-orange.svg?style=flat)](http://opensource.org/licenses/BSD-2-Clause)
+* **License:** [BSD 2-Clause](http://opensource.org/licenses/BSD-2-Clause)
 * **Author:** Drew Schmidt
 
 
@@ -13,18 +13,15 @@ The package is functional but still young at this time. More features may make t
 
 ## Installation
 
-<!-- To install the R package, run:
+You can install the stable version from [the HPCRAN](https://hpcran.org) using the usual `install.packages()`:
 
 ```r
-install.package("crlapply")
-``` -->
+install.packages("crlapply", repos="https://hpcran.org")
+```
 
-The development version is maintained on GitHub, and can easily be installed by any of the packages that offer installations from GitHub:
+The development version is maintained on GitHub:
 
 ```r
-### Pick your preference
-devtools::install_github("wrathematics/crlapply")
-ghit::install_github("wrathematics/crlapply")
 remotes::install_github("wrathematics/crlapply")
 ```
 

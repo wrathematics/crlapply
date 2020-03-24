@@ -14,4 +14,3 @@ automatically handles checkpointing.
 Drew Schmidt
 }
 \keyword{Package}
-
