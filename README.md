@@ -1,6 +1,6 @@
 # crlapply
 
-* **Version:** 0.1-0
+* **Version:** 0.2-0
 * **Status:** [![Build Status](https://travis-ci.org/wrathematics/crlapply.png)](https://travis-ci.org/wrathematics/crlapply)
 * **License:** [BSD 2-Clause](http://opensource.org/licenses/BSD-2-Clause)
 * **Author:** Drew Schmidt
