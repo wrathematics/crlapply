@@ -8,7 +8,6 @@
 
 Checkpoint/restart is a useful strategy for running expensive functions in constrained environments (non-reliable hardware, restricted time limits, etc). This package adds an `lapply()`-like function that automatically handles checkpointing.
 
-The package is functional but still young at this time. More features may make their way here eventually.
 
 
 ## Installation
@@ -40,54 +39,41 @@ costly = function(x, waittime)
   sqrt(x)
 }
 
-crlapply::crlapply(1:10, costly, FILE="/tmp/cr.rdata", waittime=0.5)
+ret = crlapply::crlapply(1:10, costly, checkpoint_file="/tmp/cr.rdata", waittime=0.5)
+
+unlist(ret)
 ```
 
 We can save this to the file `example.r`. We'll run it and kill it a few times:
 
 ```bash
-$ r example.r
+$ Rscript example.r
 [1] "iteration: 1"
 [1] "iteration: 2"
 [1] "iteration: 3"
 [1] "iteration: 4"
 ^C
-$ r example.r
+$ Rscript example.r
 [1] "iteration: 5"
 [1] "iteration: 6"
 [1] "iteration: 7"
 ^C
-$ r example.r
+$ Rscript example.r
 [1] "iteration: 8"
 [1] "iteration: 9"
 [1] "iteration: 10"
-[[1]]
-[1] 1
-
-[[2]]
-[1] 1.414214
-
-[[3]]
-[1] 1.732051
-
-[[4]]
-[1] 2
-
-[[5]]
-[1] 2.236068
-
-[[6]]
-[1] 2.44949
-
-[[7]]
-[1] 2.645751
-
-[[8]]
-[1] 2.828427
-
-[[9]]
-[1] 3
-
-[[10]]
-[1] 3.162278
 ```
+
+The final line of the script, when executed, will produce the following:
+
+```r
+unlist(ret)
+##  [1] 1.000000 1.414214 1.732051 2.000000 2.236068 2.449490 2.645751 2.828427
+##  [9] 3.000000 3.162278
+```
+
+We could have run this in an interactive R session instead of with in batch with `Rscript`. However, this should make it more obvious what is going on. Each time, we not only halt function execution, but *destroy the entire running R environment*. In the end, we are still able to read the entire set of results. This is because the intermediary results are stored in the checkpoint (that's the whole point). And the results can be any native R object.
+
+So, if your results are very large (say the returns of big, expensive modeling functions) then those large objects will have to be saved/loaded each time there is a save or a reload. Set the `checkpoint_freq` argument appropriately.
+
+One final note, is that the checkpoint/restart won't work for R objects that don't serialize. Anything that is secretly an [external pointer](https://cran.r-project.org/doc/manuals/R-exts.html#External-pointers-and-weak-references) will not be able to properly save/reload, and it may not be obvious at runtime that this is so. The save/reload may "work" in that they execute, but the data will be worthless and could cause the R session to crash when trying to operate on those objects. A few examples of packages whose objects are external pointers are [ngram](https://cran.r-project.org/web/packages/ngram/index.html) and [fmlr](https://hpcran.org/packages/fmlr/index.html).
