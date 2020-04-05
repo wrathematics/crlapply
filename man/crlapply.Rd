@@ -4,23 +4,32 @@
 \alias{crlapply}
 \title{crlapply}
 \usage{
-crlapply(X, FUN, FILE, FREQ = 1, ...)
+crlapply(X, FUN, ..., checkpoint_file, checkpoint_freq = 1)
 }
 \arguments{
 \item{X, FUN, ...}{Same as in \code{lapply()}.}
 
-\item{FILE}{The checkpoint file.}
+\item{checkpoint_file}{The checkpoint file.}
 
-\item{FREQ}{The checkpoint frequency; a positive integer.}
+\item{checkpoint_freq}{The checkpoint frequency, i.e. how often the function will save checkpoints.
+A frequency of 1 means that saves occur after every evaluation, 2 after
+every other, 3 every third, and so on. Should a positive integer.}
 }
 \value{
 A list.
 }
 \description{
 An \code{lapply()}-like interface with automatic checkpoint/restart
-functionality.
+functionality. Checkpoint/restart is a useful strategy for running expensive
+functions in constrained environments (non-reliable hardware, restricted time
+limits, etc).
 }
 \details{
-The checkpoint file is cleaned up on successful completion of
-\code{crlapply()}
+See the package README for a substantive example and explanation.
+
+
+The checkpoint file is removed on successful completion.
+}
+\seealso{
+\code{\link{crsapply}}
 }
